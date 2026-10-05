@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eco Food - Professional Prototype</title>
+  <style>
+    :root{
+      --green:#1f7a4a;
+      --green-dark:#0f4f31;
+      --green-mid:#2e9a61;
+      --green-soft:#edf8f1;
+      --mint:#dff4e8;
+      --cream:#fffaf0;
+      --orange:#e68632;
+      --red:#c9473d;
+      --blue:#326bbf;
+      --text:#17231d;
+      --muted:#68756f;
+      --line:#dce7df;
+      --card:#ffffff;
+      --bg:#f5f8f4;
+      --shadow:0 16px 42px rgba(15,79,49,.11);
+      --shadow-soft:0 8px 24px rgba(0,0,0,.06);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+    button,input,select,textarea{font-family:inherit}
+    button{border:0;cursor:pointer}
+    a{text-decoration:none;color:inherit}
+    .hidden{display:none!important}
+    .container{width:min(1220px,94%);margin:auto}
+
+    /* Professional Logo */
+    .brand{display:flex;align-items:center;gap:12px;min-width:max-content}
+    .brand-badge{width:58px;height:58px;border-radius:19px;background:linear-gradient(145deg,#f4fff6,#cfeeda);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(31,122,74,.14),0 10px 24px rgba(31,122,74,.12)}
+    .brand-badge svg{width:42px;height:42px}
+    .brand-title{font-size:28px;font-weight:950;letter-spacing:.2px;color:var(--green-dark);line-height:1}
+    .brand-sub{font-size:11px;color:#826345;letter-spacing:4px;font-weight:850;margin-top:6px;text-transform:uppercase}
+    .compact .brand-badge{width:46px;height:46px;border-radius:16px}.compact .brand-title{font-size:23px}.compact .brand-sub{font-size:9px;letter-spacing:3px}
+
+    .topbar{background:white;border-bottom:1px solid var(--line);box-shadow:0 2px 16px rgba(0,0,0,.03)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 0;flex-wrap:wrap}
+    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .language-select,.role-chip,.icon-btn,.logout-btn{height:46px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--green-dark);font-weight:850;padding:0 14px;box-shadow:0 4px 12px rgba(0,0,0,.035)}
+    .icon-btn{width:46px;padding:0;display:grid;place-items:center;font-size:19px;background:#f6faf6}.logout-btn{background:#f2f5f1;color:#53615a}
+    .role-chip{background:var(--green-soft);color:var(--green-dark)}
+
+    .auth-page{min-height:100vh;padding:18px;background:radial-gradient(circle at 20% 15%,rgba(31,122,74,.14),transparent 28%),linear-gradient(135deg,#f0faf2,#fff9ef);display:grid;place-items:center}
+    .auth-shell{width:min(1120px,100%);background:#fff;border-radius:34px;box-shadow:0 34px 90px rgba(0,0,0,.13);overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr;min-height:680px}
+    .auth-hero{background:linear-gradient(145deg,var(--green-dark),var(--green));color:white;padding:42px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+    .auth-hero:before{content:"";position:absolute;inset:-120px;background:radial-gradient(circle at 25% 20%,rgba(255,255,255,.22),transparent 22%),radial-gradient(circle at 80% 75%,rgba(255,255,255,.16),transparent 28%)}
+    .auth-hero>*{position:relative;z-index:1}.auth-hero .brand-title{color:white}.auth-hero .brand-sub{color:#e9d9be}.auth-hero h1{font-size:46px;line-height:1.15;margin:28px 0 14px;font-weight:950}.auth-hero p{font-size:17px;line-height:1.9;color:#eaffef;max-width:520px}
+    .auth-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.auth-stat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.17);border-radius:22px;padding:18px;text-align:center}.auth-stat b{display:block;font-size:24px}.auth-stat span{font-size:12px;color:#eaffef}
+    .auth-form{padding:40px;display:grid;align-content:center}.auth-form h2{font-size:34px;margin:22px 0 8px;font-weight:950}.muted{color:var(--muted);line-height:1.65}.tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f0;border-radius:18px;padding:7px;margin:22px 0}.tabs button{border-radius:14px;padding:13px;font-weight:900;background:transparent;color:var(--muted)}.tabs button.active{background:white;color:var(--green);box-shadow:0 7px 18px rgba(0,0,0,.08)}
+    .form-row{margin-bottom:15px}.form-row label{display:block;font-weight:900;margin-bottom:8px}.field{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:17px;padding:13px 15px;background:white}.field input,.field select,.field textarea{border:0;outline:0;background:transparent;width:100%;font-size:15px;color:var(--text)}.field textarea{min-height:82px;resize:vertical}.error{color:var(--red);font-size:13px;font-weight:800;margin-top:7px}.main-btn{width:100%;border-radius:18px;padding:15px 18px;background:var(--green);color:white;font-size:17px;font-weight:950;box-shadow:0 12px 28px rgba(31,122,74,.22)}.main-btn:hover{background:var(--green-dark)}.secondary-btn{background:#eef3ee;color:var(--green-dark);border-radius:16px;padding:13px 16px;font-weight:900}.link-btn{background:transparent;color:var(--green);font-weight:950;padding:0}
+
+    .dashboard-hero{margin:28px 0 18px;border-radius:34px;background:linear-gradient(135deg,var(--green-dark),var(--green-mid));color:white;padding:30px;box-shadow:var(--shadow);overflow:hidden;position:relative}.dashboard-hero:after{content:"";position:absolute;left:-75px;bottom:-85px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}.dashboard-hero-content{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:center}.dashboard-hero h1{font-size:38px;margin:0 0 10px;font-weight:950}.dashboard-hero p{margin:0;color:#ecfff0;line-height:1.75}.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:17px;text-align:center}.metric b{display:block;font-size:22px}.metric span{font-size:12px;color:#eaffef}
+
+    .market-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;margin:22px 0 55px}.side-panel{background:white;border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow-soft);height:max-content}.side-panel h3{margin:5px 0 14px;font-size:19px}.cat-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:right;background:#f7faf6;border:1px solid transparent;border-radius:17px;padding:13px 14px;margin-bottom:9px;color:#52615a;font-weight:900}.cat-btn.active{background:var(--green);color:white}.cat-btn .count{background:white;color:var(--green);border-radius:999px;min-width:32px;padding:5px 9px;text-align:center;font-size:12px}.cat-btn.active .count{background:rgba(255,255,255,.18);color:white}.search-panel{display:grid;grid-template-columns:1fr 190px;gap:12px;margin-bottom:16px}.search-box,.sort-box{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--line);border-radius:20px;padding:0 15px;box-shadow:0 6px 18px rgba(0,0,0,.035)}.search-box input,.sort-box select{border:0;outline:0;background:transparent;width:100%;padding:15px 0;font-size:15px;color:var(--text)}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:8px 0 14px}.section-title h2{margin:0;font-size:25px}.section-title p{margin:0;color:var(--muted)}
+    .product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.card{background:white;border:1px solid var(--line);border-radius:27px;overflow:hidden;text-align:right;box-shadow:0 8px 22px rgba(0,0,0,.045);transition:.22s}.card:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(0,0,0,.09)}.card-img{height:180px;position:relative;overflow:hidden;background:#e8eee9}.card-img img{width:100%;height:100%;object-fit:cover;transition:.35s}.card:hover img{transform:scale(1.04)}.badge{position:absolute;top:12px;right:12px;background:var(--green);color:white;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:950}.badge.orange{background:var(--orange)}.type-pill{position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,.94);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900}.card-body{padding:17px}.card h3{margin:0 0 8px;font-size:18px;line-height:1.35}.merchant-line{color:var(--muted);font-weight:800;font-size:14px;margin-bottom:12px}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{background:var(--green-soft);color:var(--green);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900}.qoffa-list{background:#fff8ed;border:1px solid #f3dfbd;border-radius:15px;padding:10px;margin-top:12px;color:#69523a;font-size:13px;line-height:1.6}.price-row{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:14px}.price{font-size:25px;color:var(--green);font-weight:950}.old{text-decoration:line-through;color:#9aa3a0;font-size:13px}.qty{background:#f3f6f2;border-radius:12px;padding:9px 10px;font-size:12px;font-weight:900;color:#56625c}
+
+    .detail-shell{display:grid;grid-template-columns:1fr 1fr;background:white;border:1px solid var(--line);border-radius:34px;overflow:hidden;box-shadow:var(--shadow);margin:24px 0 55px}.detail-img{min-height:500px;position:relative}.detail-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}.detail-content{padding:30px}.detail-content h1{font-size:33px;margin:0 0 8px}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}.info-box{background:#f7faf6;border-radius:18px;padding:15px}.info-box small{display:block;color:var(--muted);font-weight:900;margin-bottom:6px}.desc,.notice{border-radius:20px;padding:16px;line-height:1.75}.desc{background:#f7faf6;color:#405048}.notice{background:#fff8e6;border:1px solid #f3d58a;color:#71501b;margin-top:14px}.action-row{display:flex;gap:12px;margin-top:16px}.action-row .main-btn{width:auto;flex:1}.phone{background:#f4f7f3;border-radius:16px;padding:15px 16px;font-weight:950;color:var(--green-dark);display:grid;place-items:center}.back-btn{margin:22px 0 0;background:white;border:1px solid var(--line);border-radius:999px;padding:12px 17px;font-weight:950;color:#344039;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+
+    .checkout-grid,.merchant-grid{display:grid;grid-template-columns:1fr 380px;gap:20px;margin:22px 0 55px}.panel{background:white;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.04)}.panel h1,.panel h2{margin:0 0 8px}.choice{width:100%;display:flex;gap:12px;align-items:flex-start;background:white;border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:12px;text-align:right}.choice.active{border-color:var(--green);background:var(--green-soft)}.choice-icon{width:46px;height:46px;border-radius:15px;background:#edf2ec;display:grid;place-items:center;font-size:22px}.choice.active .choice-icon{background:var(--green);color:white}.choice strong{display:block;margin-bottom:5px}.choice p{margin:0;color:var(--muted);line-height:1.55}.choice .fee{margin-right:auto;color:var(--green);font-weight:950}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:18px}.form-grid .full{grid-column:1/-1}.form-grid input,.form-grid select,.form-grid textarea{width:100%;border:1px solid var(--line);border-radius:16px;padding:13px;outline:none;font-size:15px;background:white}.form-grid textarea{min-height:90px;resize:vertical}.summary-item{background:#f7faf6;border-radius:18px;padding:15px;margin:14px 0}.row{display:flex;justify-content:space-between;gap:12px;margin:13px 0;font-weight:900;color:#59645d}.row.total{border-top:1px solid var(--line);padding-top:14px;font-size:21px;color:var(--text)}.row.total span:last-child{color:var(--green)}
+    .merchant-products{display:grid;gap:10px}.mini-product{display:flex;gap:12px;align-items:center;background:#f7faf6;border-radius:18px;padding:10px}.mini-product img{width:64px;height:56px;border-radius:13px;object-fit:cover}.mini-product b{display:block}.mini-product span{color:var(--muted);font-size:13px}.success-page{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#eff9ef,#f8fff5);padding:20px}.success-card{max-width:560px;background:white;border-radius:34px;padding:38px;text-align:center;box-shadow:var(--shadow)}.success-icon{width:84px;height:84px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;margin:auto;font-size:42px;color:var(--green)}.success-card h1{font-size:32px;margin-bottom:8px}.empty{background:white;border:1px dashed var(--line);border-radius:22px;padding:30px;text-align:center;color:var(--muted)}
+
+
+    .category-menu-wrap{position:relative;display:flex;justify-content:flex-end;margin-bottom:12px}
+    .dots-btn{width:48px;height:48px;border-radius:16px;background:white;border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.055);font-size:24px;color:var(--green-dark);font-weight:950;display:grid;place-items:center}
+    .category-popover{position:absolute;top:56px;right:0;width:290px;background:white;border:1px solid var(--line);border-radius:24px;padding:14px;box-shadow:0 22px 55px rgba(0,0,0,.14);z-index:30}
+    html[dir="ltr"] .category-popover{right:auto;left:0}
+    .category-popover h3{margin:4px 6px 12px;font-size:18px;color:var(--green-dark)}
+    .category-popover .cat-btn{margin-bottom:8px}
+    .market-main{min-width:0}
+    .subscription-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 55px}
+    .plan-card{background:white;border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
+    .plan-card.recommended{border-color:var(--green);box-shadow:var(--shadow)}
+    .plan-badge{display:inline-block;background:var(--green-soft);color:var(--green);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:950;margin-bottom:12px}
+    .plan-title{font-size:22px;font-weight:950;margin:0 0 8px;color:var(--green-dark)}
+    .plan-price{font-size:32px;font-weight:950;color:var(--green);margin:12px 0}.plan-price small{font-size:13px;color:var(--muted);font-weight:800}
+    .plan-features{margin:16px 0 20px;padding:0;list-style:none}.plan-features li{padding:9px 0;border-bottom:1px solid #eef3ee;color:#52615a;font-weight:800}
+    @media(max-width:1050px){.auth-shell,.dashboard-hero-content,.market-layout,.detail-shell,.checkout-grid,.merchant-grid,.subscription-grid{grid-template-columns:1fr}.product-grid{grid-template-columns:repeat(2,1fr)}.side-panel{order:0}.auth-hero{display:none}.search-panel{grid-template-columns:1fr}.metric-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:640px){.category-popover{position:fixed;top:92px;right:12px;left:12px;width:auto}.subscription-grid{grid-template-columns:1fr}.container{width:min(94%,620px)}.topbar-inner{justify-content:center}.brand{justify-content:center;width:100%}.top-actions{width:100%;justify-content:center}.language-select,.role-chip,.icon-btn,.logout-btn{height:42px}.dashboard-hero{padding:22px;border-radius:28px}.dashboard-hero h1{font-size:28px}.metric-grid{grid-template-columns:1fr}.product-grid{grid-template-columns:1fr}.card-img{height:210px}.auth-form{padding:25px}.auth-form h2{font-size:28px}.form-grid,.info-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.detail-content{padding:22px}.detail-img{min-height:320px}.action-row{display:block}.phone{margin-top:10px}.section-title{display:block}.brand-title{font-size:25px}.brand-badge{width:52px;height:52px}}
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+
+  <script>
+    const i18n = {
+      ar:{dir:'rtl', login:'تسجيل الدخول', create:'إنشاء حساب', buyer:'عميل', merchant:'تاجر', email:'البريد الإلكتروني', password:'كلمة المرور', enter:'الدخول إلى المنصة', fullName:'الاسم الكامل', accountType:'نوع الحساب', storeName:'اسم المتجر', phone:'رقم الهاتف', city:'المدينة', createAccount:'إنشاء الحساب', noAccount:'لا تملك حساباً؟', haveAccount:'لديك حساب؟', demoHint:'نسخة تجريبية: يمكنك الدخول بأي بريد وكلمة مرور.', marketplace:'سوق العروض', welcome:'مرحبا بك في Eco Food', heroText:'اكتشف عروض الطعام القريب من انتهاء الصلاحية بأسعار منخفضة مع معلومات واضحة عن الكمية، المصدر، وطريقة الاستلام.', offers:'العروض المتاحة', search:'ابحث عن منتج أو تاجر...', categories:'الفئات', all:'الكل', qoffa:'القفة', bakery:'مخبزة', vegetables:'خضر وفواكه', restaurant:'مطعم', supermarket:'محل غذائي', dairy:'ألبان', hotel:'فندق', industrial:'للمصانع', newest:'الأحدث', cheapest:'الأرخص', discount:'أكبر تخفيض', available:'متاح', details:'عرض التفاصيل', location:'الموقع', rating:'التقييم', expiry:'الصلاحية', quantity:'الكمية', safety:'ملاحظة السلامة', safetyText:'التاجر مسؤول عن صحة المعلومات وجودة السلعة. يفضل التحقق من التاريخ والحالة قبل إتمام الشراء.', buyNow:'شراء الآن', back:'رجوع', checkout:'إتمام الطلب', delivery:'توصيل إلى العنوان', pickup:'استلام من المحل', inspection:'فحص البضاعة قبل الشراء', name:'الاسم', address:'العنوان أو ملاحظة الاستلام', summary:'ملخص الطلب', productPrice:'سعر المنتج', deliveryFee:'التوصيل', removedInspectionFee:'الفحص', total:'المجموع', confirm:'تأكيد الطلب', success:'تم إرسال الطلب بنجاح', successText:'سيتم التواصل معك لتأكيد الطلب وطريقة الاستلام.', home:'العودة إلى العروض', logout:'خروج', notifications:'إشعارات', profile:'حسابي', merchantDashboard:'لوحة التاجر', addOffer:'إضافة عرض جديد', offerType:'نوع العرض', productName:'اسم العرض', currentPrice:'السعر الحالي', oldPrice:'السعر الأصلي', description:'الوصف', image:'رابط الصورة', qoffaItems:'محتويات القفة', publish:'نشر العرض', myOffers:'عروضي الحالية', kg:'كغ', units:'وحدة'},
+      fr:{dir:'ltr', login:'Connexion', create:'Créer un compte', buyer:'Client', merchant:'Commerçant', email:'E-mail', password:'Mot de passe', enter:'Entrer dans la plateforme', fullName:'Nom complet', accountType:'Type de compte', storeName:'Nom du magasin', phone:'Téléphone', city:'Ville', createAccount:'Créer le compte', noAccount:'Pas de compte ?', haveAccount:'Vous avez un compte ?', demoHint:'Version démo : vous pouvez entrer avec n’importe quel e-mail et mot de passe.', marketplace:'Marché des offres', welcome:'Bienvenue sur Eco Food', heroText:'Découvrez des offres alimentaires proches de la date limite avec des prix réduits, des quantités claires et des options de livraison ou de retrait.', offers:'Offres disponibles', search:'Rechercher un produit ou un commerçant...', categories:'Catégories', all:'Tous', qoffa:'Panier mixte', bakery:'Boulangerie', vegetables:'Fruits & légumes', restaurant:'Restaurant', supermarket:'Supermarché', dairy:'Produits laitiers', hotel:'Hôtel', industrial:'Industrie', newest:'Nouveautés', cheapest:'Moins cher', discount:'Meilleure réduction', available:'Disponible', details:'Voir détails', location:'Adresse', rating:'Note', expiry:'Validité', quantity:'Quantité', safety:'Note de sécurité', safetyText:'Le commerçant est responsable de la qualité et des informations. Vérifiez la date et l’état avant achat.', buyNow:'Acheter', back:'Retour', checkout:'Finaliser la commande', delivery:'Livraison à domicile', pickup:'Retrait au magasin', inspection:'Contrôle avant achat', name:'Nom', address:'Adresse ou note', summary:'Résumé', productPrice:'Prix produit', deliveryFee:'Livraison', removedInspectionFee:'Contrôle', total:'Total', confirm:'Confirmer', success:'Commande envoyée', successText:'Vous serez contacté pour confirmer la commande et le mode de retrait.', home:'Retour aux offres', logout:'Sortie', notifications:'Notifications', profile:'Profil', merchantDashboard:'Tableau commerçant', addOffer:'Ajouter une offre', offerType:'Type d’offre', productName:'Nom de l’offre', currentPrice:'Prix actuel', oldPrice:'Prix initial', description:'Description', image:'Lien image', qoffaItems:'Contenu du panier', publish:'Publier', myOffers:'Mes offres', kg:'kg', units:'unités'}
+    };
+
+    const images = {
+      bread:'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1400&auto=format&fit=crop',
+      bread2:'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=1400&auto=format&fit=crop',
+      veg:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      tomato:'https://images.unsplash.com/photo-1546094096-0df4bcaaa337?q=80&w=1400&auto=format&fit=crop',
+      restaurant:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1400&auto=format&fit=crop',
+      market:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      dairy:'https://images.unsplash.com/photo-1628088062854-d1870b4553da?q=80&w=1400&auto=format&fit=crop',
+      fruits:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      apples:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      hotel:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop',
+      qoffa:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      pastry:'https://images.unsplash.com/photo-1509365465985-25d11c17e812?q=80&w=1400&auto=format&fit=crop',
+      juice:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=1400&auto=format&fit=crop',
+      industrial:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      mixedVeg:'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1400&auto=format&fit=crop',
+      soup:'https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1400&auto=format&fit=crop'
+    };
+
+    const merchants = [
+      {id:1,name:'مخبزة السلام',frName:'Boulangerie Essalam',type:'مخبزة',cat:'bakery',area:'وسط سطيف',rating:4.8,phone:'0550 12 34 56',verified:true,image:images.bread,goods:[
+        {id:'b1',cat:'bakery',name:'سلة خبز ومعجنات اليوم',frName:'Pain et viennoiseries du jour',price:450,oldPrice:900,quantity:'10 سلال متاحة',frQuantity:'10 paniers',expiry:'صالح للاستهلاك اليوم',frExpiry:'À consommer aujourd’hui',desc:'سلة متنوعة من الخبز والمعجنات الطازجة المتبقية من إنتاج اليوم.',frDesc:'Panier varié de pain et de viennoiseries restantes de la production du jour.',tags:['تخفيض 50%','استلام سريع','كمية محدودة'],frTags:['-50%','Retrait rapide','Quantité limitée'],image:images.bread},
+        {id:'b2',cat:'industrial',name:'خبز مخصص لفتات الخبز',frName:'Pain pour chapelure',price:700,oldPrice:1400,quantity:'25 كغ',frQuantity:'25 kg',expiry:'خلال 24 ساعة',frExpiry:'Sous 24h',desc:'كمية خبز مناسبة للتحويل إلى فتات الخبز أو استعمال المطاعم.',frDesc:'Pain adapté à la transformation en chapelure ou à l’usage restaurant.',tags:['للمصانع','كمية كبيرة'],frTags:['Industrie','Grande quantité'],image:images.bread2}
+      ]},
+      {id:2,name:'خضر وفواكه البركة',frName:'Fruits & Légumes El Baraka',type:'خضر وفواكه',cat:'vegetables',area:'حي الهضاب',rating:4.6,phone:'0561 88 20 10',verified:true,image:images.veg,goods:[
+        {id:'v1',cat:'vegetables',name:'طماطم ناضجة للتصنيع',frName:'Tomates mûres pour transformation',price:2800,oldPrice:4800,quantity:'80 كغ',frQuantity:'80 kg',expiry:'تستعمل خلال 48 ساعة',frExpiry:'Sous 48h',desc:'طماطم ناضجة مناسبة لصناعة الصلصة أو استعمال المطاعم.',frDesc:'Tomates mûres adaptées aux sauces et à la restauration.',tags:['للمصانع','تخفيض 42%','كمية كبيرة'],frTags:['Industrie','-42%','Grande quantité'],image:images.tomato},
+        {id:'v2',cat:'vegetables',name:'فواكه ناضجة للعصائر والمربى',frName:'Fruits mûrs pour jus et confiture',price:1900,oldPrice:3500,quantity:'35 كغ',frQuantity:'35 kg',expiry:'24-48 ساعة',frExpiry:'24-48h',desc:'فواكه ناضجة مناسبة للعصائر، المربى، والحلويات.',frDesc:'Fruits mûrs adaptés aux jus, confitures et desserts.',tags:['للمقاهي','للمصانع'],frTags:['Cafés','Industrie'],image:images.fruits},
+        {id:'v3',cat:'vegetables',name:'خضار مشكلة للطبخ',frName:'Légumes mixtes pour cuisine',price:1500,oldPrice:2600,quantity:'22 كغ',frQuantity:'22 kg',expiry:'تستعمل اليوم أو غداً',frExpiry:'Aujourd’hui ou demain',desc:'خضار متنوعة مناسبة للمرق، الحساء، والمطاعم الصغيرة.',frDesc:'Légumes variés pour soupe, plats cuisinés et petits restaurants.',tags:['طبخ','سعر منخفض'],frTags:['Cuisine','Prix réduit'],image:images.veg}
+      ]},
+      {id:3,name:'مطعم الذوق السطايفي',frName:'Restaurant Le Goût Sétifien',type:'مطعم',cat:'restaurant',area:'عين الفوارة',rating:4.7,phone:'0770 44 90 21',verified:false,image:images.restaurant,goods:[
+        {id:'r1',cat:'restaurant',name:'وجبات جاهزة بسعر مخفض',frName:'Repas prêts à prix réduit',price:1200,oldPrice:2400,quantity:'8 وجبات',frQuantity:'8 repas',expiry:'تستهلك اليوم فقط',frExpiry:'Aujourd’hui seulement',desc:'وجبات محفوظة بطريقة مناسبة وتباع في نفس اليوم بسعر مخفض.',frDesc:'Repas conservés correctement et vendus le jour même à prix réduit.',tags:['جاهز','اليوم فقط','تخفيض 50%'],frTags:['Prêt','Aujourd’hui','-50%'],image:images.restaurant},
+        {id:'r2',cat:'restaurant',name:'حساء وخبز للعائلات',frName:'Soupe et pain familial',price:950,oldPrice:1700,quantity:'6 حصص',frQuantity:'6 portions',expiry:'اليوم فقط',frExpiry:'Aujourd’hui',desc:'عرض اقتصادي مناسب للعائلات والطلبة.',frDesc:'Offre économique pour familles et étudiants.',tags:['عائلي','جاهز'],frTags:['Familial','Prêt'],image:images.soup}
+      ]},
+      {id:4,name:'ماركت المدينة',frName:'Market El Madina',type:'محل غذائي',cat:'supermarket',area:'باب بسكرة',rating:4.5,phone:'0660 18 77 42',verified:true,image:images.market,goods:[
+        {id:'g1',cat:'dairy',name:'منتجات ألبان قريبة الصلاحية',frName:'Produits laitiers proches date',price:1600,oldPrice:2600,quantity:'18 وحدة',frQuantity:'18 unités',expiry:'تنتهي خلال 3 أيام',frExpiry:'Expire dans 3 jours',desc:'منتجات ألبان صالحة للاستهلاك مع تاريخ انتهاء واضح.',frDesc:'Produits laitiers consommables avec date claire.',tags:['صالح','تاريخ واضح'],frTags:['Consommable','Date claire'],image:images.dairy},
+        {id:'g2',cat:'qoffa',name:'قفة اقتصادية مختلطة',frName:'Panier mixte économique',price:980,oldPrice:1800,quantity:'12 قفة',frQuantity:'12 paniers',expiry:'الأفضل اليوم',frExpiry:'Idéal aujourd’hui',desc:'قفة تحتوي منتجات مختلفة قريبة الصلاحية من المحل، مناسبة للشراء السريع بسعر منخفض.',frDesc:'Panier contenant différents produits proches de la date, à prix réduit.',tags:['قفة','مختلطة','سعر منخفض'],frTags:['Panier','Mixte','Prix réduit'],items:['خبز','طماطم','علبة ياغورت','بطاطا','عصير صغير'],frItems:['Pain','Tomates','Yaourt','Pommes de terre','Petit jus'],image:images.qoffa},
+        {id:'g3',cat:'qoffa',name:'قفة عائلية قبل نهاية الصلاحية',frName:'Panier familial anti-gaspillage',price:1450,oldPrice:2700,quantity:'7 قفف',frQuantity:'7 paniers',expiry:'24 ساعة',frExpiry:'24h',desc:'قفة عائلية فيها مواد متنوعة للاستهلاك السريع.',frDesc:'Panier familial avec produits variés pour consommation rapide.',tags:['عائلي','قفة','توفير'],frTags:['Familial','Panier','Économie'],items:['خبز كامل','طماطم','جبن','خس','حليب','تفاح'],frItems:['Pain complet','Tomates','Fromage','Laitue','Lait','Pommes'],image:images.qoffa}
+      ]},
+      {id:5,name:'ألبان الريف',frName:'Laiterie El Rif',type:'ألبان',cat:'dairy',area:'العلمة',rating:4.4,phone:'0556 70 18 99',verified:true,image:images.dairy,goods:[
+        {id:'d1',cat:'dairy',name:'حليب ولبن للمقاهي',frName:'Lait et leben pour cafés',price:2100,oldPrice:3300,quantity:'30 وحدة',frQuantity:'30 unités',expiry:'يومان',frExpiry:'2 jours',desc:'علب حليب ولبن مناسبة للمقاهي والاستهلاك السريع.',frDesc:'Lait et leben adaptés aux cafés et à la consommation rapide.',tags:['ألبان','للمقاهي'],frTags:['Laitier','Cafés'],image:images.dairy}
+      ]},
+      {id:6,name:'فندق الأوراس',frName:'Hôtel El Aurès',type:'فندق',cat:'hotel',area:'سطيف الجديدة',rating:4.3,phone:'0672 21 67 88',verified:true,image:images.hotel,goods:[
+        {id:'h1',cat:'hotel',name:'بوفيه فطور متبقي',frName:'Restes buffet petit-déjeuner',price:3200,oldPrice:5600,quantity:'15 حصة',frQuantity:'15 portions',expiry:'اليوم قبل 14:00',frExpiry:'Aujourd’hui avant 14:00',desc:'منتجات فطور متنوعة متبقية من البوفيه، مغلفة للاستلام السريع.',frDesc:'Produits variés du buffet, emballés pour retrait rapide.',tags:['فندق','فطور','استلام سريع'],frTags:['Hôtel','Petit-déj','Retrait rapide'],image:images.hotel}
+      ]},
+      {id:7,name:'حلويات النخبة',frName:'Pâtisserie Elite',type:'مخبزة',cat:'bakery',area:'حي 1014',rating:4.9,phone:'0559 33 11 22',verified:true,image:images.pastry,goods:[
+        {id:'p1',cat:'bakery',name:'حلويات اليوم المتبقية',frName:'Pâtisseries du jour restantes',price:1800,oldPrice:3200,quantity:'4 علب',frQuantity:'4 boîtes',expiry:'اليوم أو صباح الغد',frExpiry:'Aujourd’hui ou demain matin',desc:'علب حلويات متنوعة من إنتاج اليوم.',frDesc:'Boîtes de pâtisserie variée produite aujourd’hui.',tags:['حلويات','اليوم'],frTags:['Pâtisserie','Aujourd’hui'],image:images.pastry}
+      ]},
+      {id:8,name:'عصائر فيتامين',frName:'Jus Vitamin',type:'مطعم',cat:'restaurant',area:'الجامعة',rating:4.2,phone:'0771 44 55 20',verified:false,image:images.juice,goods:[
+        {id:'j1',cat:'restaurant',name:'عصائر فواكه طازجة',frName:'Jus de fruits frais',price:850,oldPrice:1500,quantity:'10 قوارير',frQuantity:'10 bouteilles',expiry:'اليوم فقط',frExpiry:'Aujourd’hui',desc:'عصائر محضرة من فواكه ناضجة، مناسبة للاستهلاك اليومي.',frDesc:'Jus préparés avec fruits mûrs, à consommer le jour même.',tags:['عصائر','بارد','اليوم'],frTags:['Jus','Frais','Aujourd’hui'],image:images.juice}
+      ]}
+    ];
+
+    let users = JSON.parse(localStorage.getItem('ecoUsers')||'[]');
+    let state = {screen:'login', authMode:'login', userType:'buyer', lang:'ar', user:null, selected:null, category:'all', query:'', sort:'newest', method:'delivery', city:'setif', inspection:false, menuOpen:false, subscription:null};
+    const app = document.getElementById('app');
+    const t = k => i18n[state.lang][k] || i18n.ar[k] || k;
+    const isFr = () => state.lang === 'fr';
+    const money = v => `${Number(v).toLocaleString()} دج`;
+    const productText = (p, key) => isFr() && p['fr'+key[0].toUpperCase()+key.slice(1)] ? p['fr'+key[0].toUpperCase()+key.slice(1)] : p[key];
+    const merchantName = m => isFr() ? (m.frName || m.name) : m.name;
+    const categoryImages = {
+      all: images.market,
+      bakery: images.bread,
+      vegetables: images.veg,
+      restaurant: images.restaurant,
+      supermarket: images.market,
+      dairy: images.dairy,
+      qoffa: images.qoffa,
+      industrial: images.industrial,
+      hotel: images.hotel
+    };
+    const getCategoryImage = cat => categoryImages[cat] || images.market;
+    const ensureProductImages = () => merchants.forEach(m => {
+      m.image = m.image || getCategoryImage(m.cat);
+      (m.goods || []).forEach(g => {
+        if(!g.image) g.image = getCategoryImage(g.cat || m.cat);
+      });
+    });
+    const allProducts = () => merchants.flatMap(m => m.goods.map(g => ({merchant:m, product:g})));
+
+    function fallbackImage(cat='food'){
+      const info={
+        qoffa:['🧺','قفة مختلطة','#e68632','#fff4e3'],
+        bakery:['🥖','مخبوزات','#9a6b3f','#fff1dc'],
+        vegetables:['🥬','خضر وفواكه','#1f7a4a','#eaf8ef'],
+        restaurant:['🍽️','وجبات جاهزة','#326bbf','#eef4ff'],
+        supermarket:['🏪','مواد غذائية','#2e6b56','#edf8f1'],
+        dairy:['🥛','منتجات ألبان','#4d7fc4','#eef5ff'],
+        hotel:['🏨','فندقة','#7056a8','#f3efff'],
+        industrial:['🏭','للمصانع','#5b6570','#f1f4f6'],
+        food:['🍏','Eco Food','#1f7a4a','#edf8f1']
+      }[cat] || ['🍏','Eco Food','#1f7a4a','#edf8f1'];
+      const [icon,label,color,bg]=info;
+      const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="${bg}"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs><rect width="1200" height="760" rx="48" fill="url(#g)"/><circle cx="1030" cy="130" r="170" fill="${color}" opacity=".12"/><circle cx="170" cy="650" r="210" fill="${color}" opacity=".10"/><rect x="120" y="120" width="960" height="520" rx="44" fill="#ffffff" opacity=".78"/><text x="600" y="325" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="138">${icon}</text><text x="600" y="430" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="800" fill="${color}">${label}</text><text x="600" y="500" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700" fill="#6b7280">Eco Food</text></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+    }
+    function imgFor(p,m){const cat=(p&&p.cat)||(m&&m.cat)||'food';return (p&&p.image) || (m&&m.image) || getCategoryImage(cat) || fallbackImage(cat)}
+    function safeImg(p,m,alt=''){
+      const cat=(p&&p.cat)||(m&&m.cat)||'food';
+      return `<img src="${imgFor(p,m)}" alt="${alt}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage(cat)}'">`;
+    }
+
+    function setLang(lang){state.lang=lang;document.documentElement.lang=lang;document.documentElement.dir=i18n[lang].dir;render()}
+    function logo(compact=false){return `<div class="brand ${compact?'compact':''}"><div class="brand-badge"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 37c0-13.8 11.2-25 25-25 6.2 0 11.9 2.3 16.2 6" stroke="#1f7a4a" stroke-width="5" stroke-linecap="round"/><path d="M51 27c-4-5.8-10.7-9.6-18.3-9.6-12.3 0-22.2 10-22.2 22.2 0 1.2.1 2.4.3 3.6" stroke="#8ac99e" stroke-width="5" stroke-linecap="round"/><path d="M27.5 45.5c12.8.3 21.8-6.8 26.5-21.5-13.8-1.1-24 3.7-30.5 14.3-2.2 3.6.2 7.1 4 7.2Z" fill="#1f7a4a"/><path d="M16 50c8-7.5 17.7-13.2 29-17" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/></svg></div><div><div class="brand-title">Eco Food</div><div class="brand-sub">SAVE FOOD</div></div></div>`}
+
+    function render(){document.documentElement.lang=state.lang;document.documentElement.dir=i18n[state.lang].dir;if(state.screen==='login')return renderAuth();if(state.screen==='market')return renderMarket();if(state.screen==='details')return renderDetails();if(state.screen==='checkout')return renderCheckout();if(state.screen==='success')return renderSuccess();if(state.screen==='subscription')return renderSubscription();if(state.screen==='merchant')return renderMerchant();}
+
+    function renderAuth(){
+      app.innerHTML = `<section class="auth-page"><div class="auth-shell"><div class="auth-hero">${logo()}<div><h1>${isFr()?'Réduisez le gaspillage alimentaire avec une marketplace locale.':'منصة احترافية لتقليل هدر الغذاء وبيع الفائض بذكاء.'}</h1><p>${isFr()?'Eco Food connecte les commerçants avec les clients, restaurants et usines pour vendre les produits consommables avant qu’ils ne soient gaspillés.':'يربط Eco Food بين التجار والعملاء والمطاعم والمصانع لبيع المنتجات الصالحة قبل أن تتحول إلى خسارة.'}</p></div><div class="auth-stats"><div class="auth-stat"><b>+180</b><span>${isFr()?'Offres':'عرض'}</span></div><div class="auth-stat"><b>+65</b><span>${isFr()?'Commerçants':'تاجر'}</span></div><div class="auth-stat"><b>Setif</b><span>${isFr()?'Départ':'الانطلاق'}</span></div></div></div><div class="auth-form">${logo(true)}<div style="margin-top:18px"><select class="language-select" id="authLang"><option value="ar" ${state.lang==='ar'?'selected':''}>العربية</option><option value="fr" ${state.lang==='fr'?'selected':''}>Français</option></select></div><h2>${state.authMode==='login'?t('login'):t('create')}</h2><p class="muted">${t('demoHint')}</p><div class="tabs"><button id="buyerTab" class="${state.userType==='buyer'?'active':''}">${t('buyer')}</button><button id="merchantTab" class="${state.userType==='merchant'?'active':''}">${t('merchant')}</button></div><div class="tabs"><button id="loginMode" class="${state.authMode==='login'?'active':''}">${t('login')}</button><button id="createMode" class="${state.authMode==='create'?'active':''}">${t('create')}</button></div><form id="authForm">${state.authMode==='create'?`<div class="form-row"><label>${t('fullName')}</label><div class="field"><span>👤</span><input id="fullName" placeholder="${t('fullName')}"></div></div>${state.userType==='merchant'?`<div class="form-row"><label>${t('storeName')}</label><div class="field"><span>🏪</span><input id="storeName" placeholder="${t('storeName')}"></div></div>`:''}`:''}<div class="form-row"><label>${t('email')}</label><div class="field"><span>✉</span><input id="email" placeholder="example@email.com"></div></div><div class="form-row"><label>${t('password')}</label><div class="field"><span>🔒</span><input id="password" type="password" placeholder="••••••••"></div></div>${state.authMode==='create'?`<div class="form-row"><label>${t('phone')}</label><div class="field"><span>☎</span><input id="phone" placeholder="05xx xx xx xx"></div></div>`:''}<div id="formError" class="error"></div><button class="main-btn" type="submit">${state.authMode==='login'?t('enter'):t('createAccount')}</button></form></div></div></section>`;
+      document.getElementById('authLang').onchange=e=>setLang(e.target.value);document.getElementById('buyerTab').onclick=()=>{state.userType='buyer';render()};document.getElementById('merchantTab').onclick=()=>{state.userType='merchant';render()};document.getElementById('loginMode').onclick=()=>{state.authMode='login';render()};document.getElementById('createMode').onclick=()=>{state.authMode='create';render()};
+      document.getElementById('authForm').onsubmit=e=>{e.preventDefault();const email=document.getElementById('email').value.trim()||'demo@ecofood.app';const password=document.getElementById('password').value||'demo';if(state.authMode==='create'){const fullName=(document.getElementById('fullName')?.value.trim())|| (state.userType==='merchant'?'Eco Food Trader':'Eco Food Client');const storeName=(document.getElementById('storeName')?.value.trim())||'متجر جديد';const phone=(document.getElementById('phone')?.value.trim())||'05xx xx xx xx';const user={email,password,fullName,storeName,phone,type:state.userType};users.push(user);localStorage.setItem('ecoUsers',JSON.stringify(users));state.user=user;}else{state.user={email,fullName:state.userType==='merchant'?'تاجر تجريبي':'عميل تجريبي',storeName:'ماركت تجريبي',type:state.userType};}state.screen=state.userType==='merchant'?'subscription':'market';render();};
+    }
+
+    function header(){return `<div class="topbar"><div class="container topbar-inner">${logo(true)}<div class="top-actions"><select class="language-select" id="langSelect"><option value="ar" ${state.lang==='ar'?'selected':''}>العربية</option><option value="fr" ${state.lang==='fr'?'selected':''}>Français</option></select><span class="role-chip">${state.userType==='merchant'?t('merchant'):t('buyer')}</span><button class="icon-btn" title="${t('notifications')}">🔔</button><button class="icon-btn" title="${t('profile')}">👤</button><button class="logout-btn" id="logoutBtn">${t('logout')}</button></div></div></div>`}
+    function bindHeader(){document.getElementById('langSelect').onchange=e=>setLang(e.target.value);document.getElementById('logoutBtn').onclick=()=>{state.screen='login';state.authMode='login';state.menuOpen=false;render()}}
+    function categoryList(){return [{id:'all',label:t('all'),icon:'🌐'},{id:'qoffa',label:t('qoffa'),icon:'🧺'},{id:'restaurant',label:t('restaurant'),icon:'🍽'},{id:'supermarket',label:t('supermarket'),icon:'🏪'},{id:'bakery',label:t('bakery'),icon:'🥖'},{id:'vegetables',label:t('vegetables'),icon:'🥬'},{id:'dairy',label:t('dairy'),icon:'🥛'},{id:'hotel',label:t('hotel'),icon:'🏨'},{id:'industrial',label:t('industrial'),icon:'🏭'}]}
+    function countCat(id){if(id==='all')return allProducts().length;return allProducts().filter(x=>x.product.cat===id || x.merchant.cat===id).length}
+    function filteredProducts(){let list=allProducts().filter(({merchant:m,product:p})=>{const txt=`${m.name} ${m.frName||''} ${m.type} ${p.name} ${p.frName||''} ${p.desc} ${p.frDesc||''}`.toLowerCase();const q=state.query.toLowerCase();const catOk=state.category==='all'||p.cat===state.category||m.cat===state.category;return txt.includes(q)&&catOk});if(state.sort==='cheapest')list.sort((a,b)=>a.product.price-b.product.price);if(state.sort==='discount')list.sort((a,b)=>((b.product.oldPrice-b.product.price)/b.product.oldPrice)-((a.product.oldPrice-a.product.price)/a.product.oldPrice));return list}
+    function renderMarket(){const list=filteredProducts();const activeCat=categoryList().find(c=>c.id===state.category)||categoryList()[0];app.innerHTML=`${header()}<section class="container"><div class="dashboard-hero"><div class="dashboard-hero-content"><div><h1>${t('welcome')}</h1><p>${t('heroText')}</p></div><div class="metric-grid"><div class="metric"><b>${allProducts().length}</b><span>${t('offers')}</span></div><div class="metric"><b>${merchants.length}</b><span>${isFr()?'Commerçants':'تجار'}</span></div><div class="metric"><b>820kg</b><span>${isFr()?'Sauvés':'هدر تم تفاديه'}</span></div></div></div></div><div class="market-layout" style="grid-template-columns:1fr"><div class="market-main"><div class="search-panel"><div class="search-box"><span>🔎</span><input id="searchInput" value="${state.query}" placeholder="${t('search')}"></div><div class="sort-box"><select id="sortSelect"><option value="newest" ${state.sort==='newest'?'selected':''}>${t('newest')}</option><option value="cheapest" ${state.sort==='cheapest'?'selected':''}>${t('cheapest')}</option><option value="discount" ${state.sort==='discount'?'selected':''}>${t('discount')}</option></select></div></div><div class="category-menu-wrap"><button class="dots-btn" id="categoryMenuBtn" aria-label="${t('categories')}">⋯</button>${state.menuOpen?`<div class="category-popover"><h3>${t('categories')}</h3>${categoryList().map(c=>`<button class="cat-btn ${state.category===c.id?'active':''}" data-cat="${c.id}"><span>${c.icon} ${c.label}</span><span class="count">${countCat(c.id)}</span></button>`).join('')}</div>`:''}</div><div class="section-title"><div><h2>${activeCat.icon} ${activeCat.label}</h2><p>${list.length} ${t('available')}</p></div></div>${list.length?`<div class="product-grid">${list.map(({merchant,product})=>card(merchant,product)).join('')}</div>`:`<div class="empty">${isFr()?'Aucune offre trouvée.':'لا توجد عروض مطابقة حالياً.'}</div>`}</div></div></section>`;bindHeader();document.getElementById('categoryMenuBtn').onclick=()=>{state.menuOpen=!state.menuOpen;render()};document.querySelectorAll('.cat-btn').forEach(b=>b.onclick=()=>{state.category=b.dataset.cat;state.menuOpen=false;render()});document.getElementById('searchInput').oninput=e=>{state.query=e.target.value;render()};document.getElementById('sortSelect').onchange=e=>{state.sort=e.target.value;render()};document.querySelectorAll('.card').forEach(btn=>btn.onclick=()=>{const m=merchants.find(x=>x.id==btn.dataset.m);const p=m.goods.find(x=>x.id==btn.dataset.p);state.selected={merchant:m,product:p};state.screen='details';state.menuOpen=false;render()});}
+    function card(m,p){const discount=Math.round(((p.oldPrice-p.price)/p.oldPrice)*100);const tags=isFr()?p.frTags:p.tags;return `<button class="card" data-m="${m.id}" data-p="${p.id}"><div class="card-img">${safeImg(p,m,productText(p,'name'))}<span class="badge ${p.cat==='qoffa'?'orange':''}">-${discount}%</span><span class="type-pill">${categoryList().find(c=>c.id===p.cat)?.label||m.type}</span></div><div class="card-body"><h3>${productText(p,'name')}</h3><div class="merchant-line">🏪 ${merchantName(m)} ${m.verified?'✅':''}</div><div class="tags">${tags.map(tag=>`<span class="tag">${tag}</span>`).join('')}</div>${p.cat==='qoffa'?`<div class="qoffa-list"><b>${t('qoffaItems')}:</b> ${(isFr()?p.frItems:p.items).join(' · ')}</div>`:''}<div class="price-row"><div><div class="price">${money(p.price)}</div><div class="old">${money(p.oldPrice)}</div></div><div class="qty">${productText(p,'quantity')}</div></div></div></button>`}
+    function renderDetails(){const {merchant:m,product:p}=state.selected;app.innerHTML=`${header()}<section class="container"><button class="back-btn" id="backMarket">← ${t('back')}</button><div class="detail-shell"><div class="detail-img">${safeImg(p,m,productText(p,'name'))}<span class="badge ${p.cat==='qoffa'?'orange':''}">${categoryList().find(c=>c.id===p.cat)?.label||m.type}</span></div><div class="detail-content"><h1>${productText(p,'name')}</h1><p class="muted">${merchantName(m)} · ${m.verified?'Verified':'Eco Food'}</p><div class="info-grid"><div class="info-box"><small>${t('location')}</small><b>📍 ${m.area}</b></div><div class="info-box"><small>${t('rating')}</small><b>⭐ ${m.rating}/5</b></div><div class="info-box"><small>${t('expiry')}</small><b>⏱ ${productText(p,'expiry')}</b></div><div class="info-box"><small>${t('quantity')}</small><b>🛍 ${productText(p,'quantity')}</b></div></div><div class="desc">${productText(p,'desc')}</div>${p.cat==='qoffa'?`<div class="qoffa-list"><b>${t('qoffaItems')}:</b><br>${(isFr()?p.frItems:p.items).map(x=>'• '+x).join('<br>')}</div>`:''}<div class="notice"><b>${t('safety')}:</b> ${t('safetyText')}</div><div class="price-row" style="margin-top:18px"><div><small>${t('currentPrice')}</small><div class="price">${money(p.price)}</div><div class="old">${money(p.oldPrice)}</div></div></div><div class="action-row"><button class="main-btn" id="buyBtn">${t('buyNow')}</button><a class="phone" href="tel:${m.phone}">☎ ${m.phone}</a></div></div></div></section>`;bindHeader();document.getElementById('backMarket').onclick=()=>{state.screen='market';render()};document.getElementById('buyBtn').onclick=()=>{state.screen='checkout';render()};}
+
+    const deliveryCities = [
+      {id:'setif', ar:'سطيف', fr:'Sétif', km:0, fee:250},
+      {id:'el_eulma', ar:'العلمة', fr:'El Eulma', km:28, fee:350},
+      {id:'ain_oulmane', ar:'عين ولمان', fr:'Aïn Oulmene', km:33, fee:400},
+      {id:'bougaa', ar:'بوقاعة', fr:'Bougaa', km:42, fee:450},
+      {id:'ain_arnat', ar:'عين أرنات', fr:'Aïn Arnat', km:10, fee:300},
+      {id:'bejaia', ar:'بجاية', fr:'Béjaïa', km:110, fee:900},
+      {id:'bordj_bou_arreridj', ar:'برج بوعريريج', fr:'Bordj Bou Arréridj', km:70, fee:700},
+      {id:'constantine', ar:'قسنطينة', fr:'Constantine', km:130, fee:1100},
+      {id:'batna', ar:'باتنة', fr:'Batna', km:135, fee:1100},
+      {id:'mila', ar:'ميلة', fr:'Mila', km:115, fee:950},
+      {id:'jijel', ar:'جيجل', fr:'Jijel', km:145, fee:1200},
+      {id:'msila', ar:'المسيلة', fr:'M’Sila', km:150, fee:1250},
+      {id:'algiers', ar:'الجزائر العاصمة', fr:'Alger', km:300, fee:1900},
+      {id:'oran', ar:'وهران', fr:'Oran', km:680, fee:3600},
+      {id:'blida', ar:'البليدة', fr:'Blida', km:285, fee:1850},
+      {id:'tipaza', ar:'تيبازة', fr:'Tipaza', km:350, fee:2200},
+      {id:'boumerdes', ar:'بومرداس', fr:'Boumerdès', km:255, fee:1750},
+      {id:'tizi_ouzou', ar:'تيزي وزو', fr:'Tizi Ouzou', km:230, fee:1650},
+      {id:'bouira', ar:'البويرة', fr:'Bouira', km:200, fee:1500},
+      {id:'annaba', ar:'عنابة', fr:'Annaba', km:300, fee:2000},
+      {id:'skikda', ar:'سكيكدة', fr:'Skikda', km:210, fee:1550},
+      {id:'guelma', ar:'قالمة', fr:'Guelma', km:220, fee:1600},
+      {id:'souk_ahras', ar:'سوق أهراس', fr:'Souk Ahras', km:265, fee:1800},
+      {id:'tebessa', ar:'تبسة', fr:'Tébessa', km:300, fee:2000},
+      {id:'khenchela', ar:'خنشلة', fr:'Khenchela', km:220, fee:1600},
+      {id:'oum_el_bouaghi', ar:'أم البواقي', fr:'Oum El Bouaghi', km:175, fee:1400},
+      {id:'biskra', ar:'بسكرة', fr:'Biskra', km:260, fee:1800},
+      {id:'ouled_djellal', ar:'أولاد جلال', fr:'Ouled Djellal', km:310, fee:2100},
+      {id:'djelfa', ar:'الجلفة', fr:'Djelfa', km:360, fee:2300},
+      {id:'laghouat', ar:'الأغواط', fr:'Laghouat', km:470, fee:2800},
+      {id:'ghardaia', ar:'غرداية', fr:'Ghardaïa', km:620, fee:3400},
+      {id:'ouargla', ar:'ورقلة', fr:'Ouargla', km:650, fee:3500},
+      {id:'touggourt', ar:'تقرت', fr:'Touggourt', km:520, fee:3000},
+      {id:'el_oued', ar:'الوادي', fr:'El Oued', km:480, fee:2900},
+      {id:'el_meghaier', ar:'المغير', fr:'El Meghaier', km:430, fee:2700},
+      {id:'el_meniaa', ar:'المنيعة', fr:'El Meniaa', km:760, fee:4200},
+      {id:'adrar', ar:'أدرار', fr:'Adrar', km:1250, fee:6200},
+      {id:'timimoun', ar:'تيميمون', fr:'Timimoun', km:1050, fee:5600},
+      {id:'bechar', ar:'بشار', fr:'Béchar', km:1050, fee:5600},
+      {id:'beni_abbes', ar:'بني عباس', fr:'Béni Abbès', km:1150, fee:5900},
+      {id:'tindouf', ar:'تندوف', fr:'Tindouf', km:1700, fee:8200},
+      {id:'tamanrasset', ar:'تمنراست', fr:'Tamanrasset', km:1550, fee:7600},
+      {id:'in_salah', ar:'عين صالح', fr:'In Salah', km:1150, fee:5900},
+      {id:'in_guezzam', ar:'عين قزام', fr:'In Guezzam', km:2050, fee:9800},
+      {id:'illizi', ar:'إليزي', fr:'Illizi', km:1500, fee:7400},
+      {id:'djanet', ar:'جانت', fr:'Djanet', km:1800, fee:8800},
+      {id:'tiaret', ar:'تيارت', fr:'Tiaret', km:520, fee:3000},
+      {id:'relizane', ar:'غليزان', fr:'Relizane', km:560, fee:3150},
+      {id:'chlef', ar:'الشلف', fr:'Chlef', km:450, fee:2700},
+      {id:'ain_defla', ar:'عين الدفلى', fr:'Aïn Defla', km:390, fee:2450},
+      {id:'medea', ar:'المدية', fr:'Médéa', km:330, fee:2150},
+      {id:'tissemsilt', ar:'تيسمسيلت', fr:'Tissemsilt', km:460, fee:2750},
+      {id:'mascara', ar:'معسكر', fr:'Mascara', km:610, fee:3350},
+      {id:'sidi_bel_abbes', ar:'سيدي بلعباس', fr:'Sidi Bel Abbès', km:700, fee:3700},
+      {id:'tlemcen', ar:'تلمسان', fr:'Tlemcen', km:800, fee:4300},
+      {id:'ain_temouchent', ar:'عين تموشنت', fr:'Aïn Témouchent', km:760, fee:4100},
+      {id:'mostaganem', ar:'مستغانم', fr:'Mostaganem', km:610, fee:3350},
+      {id:'saida', ar:'سعيدة', fr:'Saïda', km:700, fee:3700},
+      {id:'naama', ar:'النعامة', fr:'Naâma', km:850, fee:4500},
+      {id:'el_bayadh', ar:'البيض', fr:'El Bayadh', km:740, fee:4000},
+      {id:'tougourt_center', ar:'تماسين', fr:'Témacine', km:540, fee:3050},
+      {id:'cherchell', ar:'شرشال', fr:'Cherchell', km:380, fee:2400},
+      {id:'barika', ar:'بريكة', fr:'Barika', km:120, fee:1000},
+      {id:'ain_m_lila', ar:'عين مليلة', fr:'Aïn M’lila', km:145, fee:1200},
+      {id:'collo', ar:'القل', fr:'Collo', km:260, fee:1800},
+      {id:'draa_el_mizan', ar:'ذراع الميزان', fr:'Draâ El Mizan', km:255, fee:1750}
+    ];
+
+    const cityName = c => isFr() ? c.fr : c.ar;
+    const selectedCity = () => deliveryCities.find(c => c.id === state.city) || deliveryCities[0];
+    const deliveryFeeForCity = () => state.method === 'delivery' ? selectedCity().fee : 0;
+
+    function renderCheckout(){
+      const {merchant:m,product:p}=state.selected;
+      const deliveryFee = deliveryFeeForCity();
+      const total = p.price + deliveryFee;
+      const city = selectedCity();
+
+      app.innerHTML = `${header()}<section class="container">
+        <button class="back-btn" id="backDetails">← ${t('back')}</button>
+        <div class="checkout-grid">
+          <div class="panel">
+            <h1>${t('checkout')}</h1>
+            <p class="muted">${isFr()?'Choisissez le mode de réception et la ville du client pour calculer la livraison.':'اختر طريقة الاستلام ومدينة العميل لحساب سعر التوصيل حسب المسافة.'}</p>
+
+            <button class="choice ${state.method==='delivery'?'active':''}" id="deliveryChoice">
+              <div class="choice-icon">🚚</div>
+              <div><strong>${t('delivery')}</strong><p>${isFr()?'Le prix change selon la ville du client et la distance depuis le vendeur.':'سعر التوصيل يتغير حسب مدينة العميل والمسافة من التاجر.'}</p></div>
+              <div class="fee">${deliveryFee ? money(deliveryFee) : '—'}</div>
+            </button>
+
+            <button class="choice ${state.method==='pickup'?'active':''}" id="pickupChoice">
+              <div class="choice-icon">🏪</div>
+              <div><strong>${t('pickup')}</strong><p>${isFr()?'Le client récupère la commande directement chez le vendeur.':'العميل يستلم الطلب مباشرة من عند التاجر.'}</p></div>
+              <div class="fee">${t('free')}</div>
+            </button>
+
+            <div class="delivery-box ${state.method==='pickup'?'hidden':''}">
+              <label>${isFr()?'Ville du client':'مدينة العميل'}</label>
+              <select id="citySelect">
+                ${deliveryCities.map(c=>`<option value="${c.id}" ${state.city===c.id?'selected':''}>${cityName(c)} · ${c.km} كم · ${money(c.fee)}</option>`).join('')}
+              </select>
+              <div class="delivery-price-card">
+                <span>${isFr()?'Livraison estimée':'سعر التوصيل التقريبي'}</span>
+                <b>${money(deliveryFee)}</b>
+              </div>
+              <div class="delivery-note">${isFr()?`Distance estimée depuis ${m.area}. Le prix peut être confirmé par le livreur avant validation finale.`:`المسافة محسوبة تقريبياً انطلاقاً من ${m.area}. يمكن تأكيد السعر النهائي مع عامل التوصيل قبل تثبيت الطلب.`}</div>
+            </div>
+
+            <div class="form-grid">
+              <div><label>${t('fullName')}</label><input placeholder="${t('fullName')}"></div>
+              <div><label>${t('phone')}</label><input placeholder="05xx xx xx xx"></div>
+              <div class="full"><label>${isFr()?'Adresse détaillée':'العنوان التفصيلي'}</label><input placeholder="${isFr()?'Quartier, rue, point proche...':'الحي، الشارع، نقطة قريبة...'}"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>${t('orderSummary')}</h2>
+            <div class="summary-item"><b>${productText(p,'name')}</b><br><span class="muted">${merchantName(m)}</span></div>
+            <div class="row"><span>${t('currentPrice')}</span><span>${money(p.price)}</span></div>
+            <div class="row"><span>${t('delivery')}</span><span>${state.method==='delivery'?money(deliveryFee):t('free')}</span></div>
+            ${state.method==='delivery'?`<div class="row"><span>${isFr()?'Ville':'المدينة'}</span><span>${cityName(city)}</span></div>`:''}
+            <div class="row total"><span>${t('total')}</span><span>${money(total)}</span></div>
+            <button class="main-btn" id="confirmBtn">${t('confirm')}</button>
+            <p class="muted" style="text-align:center;font-size:13px">${isFr()?'Paiement à la réception ou selon accord avec le vendeur.':'الدفع عند الاستلام أو حسب الاتفاق مع التاجر.'}</p>
+          </div>
+        </div>
+      </section>`;
+
+      bindHeader();
+      document.getElementById('backDetails').onclick=()=>{state.screen='details';render()};
+      document.getElementById('deliveryChoice').onclick=()=>{state.method='delivery';render()};
+      document.getElementById('pickupChoice').onclick=()=>{state.method='pickup';render()};
+      const citySelect=document.getElementById('citySelect');
+      if(citySelect) citySelect.onchange=e=>{state.city=e.target.value;render()};
+      document.getElementById('confirmBtn').onclick=()=>{state.screen='success';render()};
+    }
+
+    function renderSuccess(){app.innerHTML=`<section class="success-page"><div class="success-card">${logo(true)}<div class="success-icon">✓</div><h1>${t('success')}</h1><p class="muted">${t('successText')}</p><button class="main-btn" id="homeBtn">${t('home')}</button></div></section>`;document.getElementById('homeBtn').onclick=()=>{state.screen='market';render()};}
+    function renderSubscription(){const plans=[{id:'starter',title:isFr()?'Essentiel':'الأساسي',badge:isFr()?'Pour petits commerces':'للمحلات الصغيرة',price:'1,500 دج',features:isFr()?['Jusqu’à 10 offres par mois','Profil commerçant','Support standard']:['حتى 10 عروض شهرياً','ملف تاجر داخل المنصة','دعم عادي']},{id:'pro',title:isFr()?'Professionnel':'الاحترافي',badge:isFr()?'Recommandé':'الأكثر مناسبة',price:'3,500 دج',recommended:true,features:isFr()?['Offres illimitées','Paniers mixtes القفة','Statistiques et commandes','Mise en avant locale']:['عروض غير محدودة','نشر القفة المختلطة','إحصائيات وطلبات','ظهور أفضل محلياً']},{id:'factory',title:isFr()?'Grossiste / Usine':'الجملة والمصانع',badge:isFr()?'Grand volume':'للكميات الكبيرة',price:'7,000 دج',features:isFr()?['Lots industriels','Demandes ketchup/confiture/chapelure','Gestion multi-points','Support prioritaire']:['عروض موجهة للمصانع','طلبات كاتشب/مربى/فتات خبز','إدارة عدة نقاط بيع','دعم أولوية']}];app.innerHTML=`${header()}<section class="container"><div class="dashboard-hero"><div class="dashboard-hero-content"><div><h1>${isFr()?'Choisir un abonnement commerçant':'اختر اشتراك التاجر'}</h1><p>${isFr()?'Avant d’accéder au tableau commerçant, choisissez une formule adaptée à votre activité.':'قبل الدخول إلى لوحة التاجر، اختر نوع الاشتراك المناسب لنشاطك.'}</p></div><div class="metric-grid"><div class="metric"><b>3</b><span>${isFr()?'Formules':'باقات'}</span></div><div class="metric"><b>0%</b><span>${isFr()?'Commission démo':'عمولة في النسخة'}</span></div><div class="metric"><b>24h</b><span>${isFr()?'Activation':'تفعيل'}</span></div></div></div></div><div class="subscription-grid">${plans.map(pl=>`<div class="plan-card ${pl.recommended?'recommended':''}"><span class="plan-badge">${pl.badge}</span><h2 class="plan-title">${pl.title}</h2><div class="plan-price">${pl.price} <small>/ ${isFr()?'mois':'شهر'}</small></div><ul class="plan-features">${pl.features.map(f=>`<li>✓ ${f}</li>`).join('')}</ul><button class="main-btn planBtn" data-plan="${pl.id}">${isFr()?'Choisir et payer':'اختيار والدفع'}</button></div>`).join('')}</div></section>`;bindHeader();document.querySelectorAll('.planBtn').forEach(btn=>btn.onclick=()=>{state.subscription=btn.dataset.plan;state.screen='merchant';render()});}
+    function renderMerchant(){const merchantGoods=allProducts().slice(0,8);app.innerHTML=`${header()}<section class="container"><div class="dashboard-hero"><div class="dashboard-hero-content"><div><h1>${t('merchantDashboard')}</h1><p>${isFr()?'Publiez des offres normales ou des paniers mixtes pour vendre rapidement les produits proches de la date.':'انشر عروضاً عادية أو قفف مختلطة لبيع المنتجات القريبة من انتهاء الصلاحية بطريقة منظمة.'}</p></div><div class="metric-grid"><div class="metric"><b>12</b><span>${isFr()?'Actives':'نشطة'}</span></div><div class="metric"><b>38</b><span>${isFr()?'Commandes':'طلبات'}</span></div><div class="metric"><b>${state.subscription||'pro'}</b><span>${isFr()?'Plan actif':'الاشتراك النشط'}</span></div></div></div></div><div class="merchant-grid"><div class="panel"><h1>${t('addOffer')}</h1><div class="form-grid"><div><label>${t('offerType')}</label><select id="newCat"><option value="qoffa">${t('qoffa')}</option><option value="supermarket">${t('supermarket')}</option><option value="restaurant">${t('restaurant')}</option><option value="bakery">${t('bakery')}</option><option value="vegetables">${t('vegetables')}</option><option value="dairy">${t('dairy')}</option></select></div><div><label>${t('productName')}</label><input id="newName" placeholder="${t('productName')}"></div><div><label>${t('currentPrice')}</label><input id="newPrice" type="number" placeholder="1200"></div><div><label>${t('oldPrice')}</label><input id="newOld" type="number" placeholder="2400"></div><div><label>${t('quantity')}</label><input id="newQty" placeholder="10"></div><div><label>${t('expiry')}</label><input id="newExpiry" placeholder="${isFr()?'Aujourd’hui':'اليوم'}"></div><div class="full"><label>${t('qoffaItems')}</label><input id="newItems" placeholder="خبز، طماطم، ياغورت، بطاطا"></div><div class="full"><label>${t('description')}</label><textarea id="newDesc" placeholder="${t('description')}"></textarea></div></div><button class="main-btn" id="publishBtn" style="margin-top:16px">${t('publish')}</button></div><div class="panel"><h2>${t('myOffers')}</h2><div class="merchant-products">${merchantGoods.map(({merchant:m,product:p})=>`<div class="mini-product">${safeImg(p,m,productText(p,'name'))}<div><b>${productText(p,'name')}</b><span>${merchantName(m)} · ${money(p.price)}</span></div></div>`).join('')}</div></div></div></section>`;bindHeader();document.getElementById('publishBtn').onclick=()=>{const cat=document.getElementById('newCat').value;const name=document.getElementById('newName').value.trim()||'عرض جديد';const price=Number(document.getElementById('newPrice').value)||900;const oldPrice=Number(document.getElementById('newOld').value)||1600;const quantity=document.getElementById('newQty').value.trim()||'10 وحدات';const expiry=document.getElementById('newExpiry').value.trim()||'اليوم';const desc=document.getElementById('newDesc').value.trim()||'عرض جديد منشور من لوحة التاجر.';const items=document.getElementById('newItems').value.split(',').map(x=>x.trim()).filter(Boolean);const m=merchants[3];m.goods.unshift({id:'new'+Date.now(),cat,name,frName:name,price,oldPrice,quantity,frQuantity:quantity,expiry,frExpiry:expiry,desc,frDesc:desc,tags:[cat==='qoffa'?'قفة':'عرض جديد','من التاجر'],frTags:[cat==='qoffa'?'Panier':'Nouvelle offre','Commerçant'],items:items.length?items:['خبز','طماطم','ياغورت'],frItems:items.length?items:['Pain','Tomates','Yaourt'],image:getCategoryImage(cat)});state.screen='market';state.category=cat;render();};}
+
+    function seedFactoryOffers(){
+      const hasSeed=allProducts().some(x=>x.product.id==='v4');
+      if(hasSeed)return;
+      const veg=merchants.find(m=>m.id===2);
+      const bakery=merchants.find(m=>m.id===1);
+      const dairy=merchants.find(m=>m.id===5);
+      const market=merchants.find(m=>m.id===4);
+      veg.goods.push(
+        {id:'v4',cat:'industrial',name:'طماطم طرية لإنتاج الكاتشب',frName:'Tomates tendres pour ketchup',price:5200,oldPrice:9200,quantity:'160 كغ',frQuantity:'160 kg',expiry:'تستعمل خلال 24 ساعة',frExpiry:'Sous 24h',desc:'طماطم ناضجة جداً مناسبة للمصانع الصغيرة لإنتاج الكاتشب، الصلصة أو معجون الطماطم. ليست موجهة للعرض في الرفوف بل للتحويل السريع.',frDesc:'Tomates très mûres adaptées à la transformation en ketchup, sauce ou concentré.',tags:['للمصانع','كاتشب','كمية كبيرة','تحويل سريع'],frTags:['Industrie','Ketchup','Grand volume','Transformation rapide'],image:images.tomato},
+        {id:'v5',cat:'industrial',name:'تفاح ناضج للمربى والخل',frName:'Pommes mûres pour confiture et vinaigre',price:4300,oldPrice:7600,quantity:'120 كغ',frQuantity:'120 kg',expiry:'48 ساعة',frExpiry:'48h',desc:'تفاح ناضج مناسب لإنتاج المربى، العصير أو الخل الغذائي.',frDesc:'Pommes mûres adaptées à la confiture, au jus ou au vinaigre alimentaire.',tags:['مربى','عصائر','للمصانع'],frTags:['Confiture','Jus','Industrie'],image:images.apples}
+      );
+      bakery.goods.push({id:'b3',cat:'industrial',name:'خبز يوم سابق لإنتاج فتات الخبز',frName:'Pain de la veille pour chapelure',price:1800,oldPrice:3600,quantity:'70 كغ',frQuantity:'70 kg',expiry:'للتحويل خلال 24 ساعة',frExpiry:'Transformation sous 24h',desc:'كمية خبز مناسبة للمطاحن الصغيرة، المطاعم أو ورشات إنتاج فتات الخبز.',frDesc:'Lot de pain adapté à la production de chapelure.',tags:['فتات خبز','للمصانع','كمية كبيرة'],frTags:['Chapelure','Industrie','Grand volume'],image:images.bread2});
+      dairy.goods.push({id:'d2',cat:'industrial',name:'حليب قريب الصلاحية للحلويات',frName:'Lait proche date pour pâtisserie',price:3900,oldPrice:6200,quantity:'90 لتر',frQuantity:'90 L',expiry:'يومان',frExpiry:'2 jours',desc:'حليب صالح للاستعمال السريع في الحلويات، الكريمة أو الإنتاج الغذائي اليومي.',frDesc:'Lait consommable à utiliser rapidement en pâtisserie ou production alimentaire.',tags:['حلويات','ألبان','للمصانع'],frTags:['Pâtisserie','Laitier','Industrie'],image:images.dairy});
+      market.goods.push({id:'g4',cat:'industrial',name:'علب عصير قريبة الصلاحية للمقاهي',frName:'Jus proche date pour cafés',price:2600,oldPrice:4800,quantity:'60 علبة',frQuantity:'60 unités',expiry:'3 أيام',frExpiry:'3 jours',desc:'مشروبات صالحة للاستهلاك السريع مناسبة للمقاهي، المناسبات الصغيرة، أو إعادة البيع المحدودة.',frDesc:'Boissons consommables rapidement pour cafés et petits événements.',tags:['مشروبات','للمقاهي','سعر مخفض'],frTags:['Boissons','Cafés','Prix réduit'],image:images.juice});
+    }
+    seedFactoryOffers();
+
+    function forceRealProductPhotos(){
+      const photoById = {
+        v1: images.tomato,
+        v2: images.veg,
+        v3: images.veg,
+        v4: images.tomato,
+        v5: images.veg,
+        b1: images.bread,
+        b2: images.bread2,
+        b3: images.bread2,
+        g1: images.dairy,
+        g2: images.qoffa,
+        g3: images.qoffa,
+        g4: images.juice,
+        d1: images.dairy,
+        d2: images.dairy,
+        r1: images.restaurant,
+        r2: images.soup,
+        h1: images.hotel,
+        p1: images.pastry,
+        j1: images.juice
+      };
+
+      merchants.forEach(m => {
+        m.image = m.image || getCategoryImage(m.cat);
+        (m.goods || []).forEach(g => {
+          g.image = photoById[g.id] || g.image || getCategoryImage(g.cat || m.cat);
+        });
+      });
+    }
+
+    ensureProductImages();
+    forceRealProductPhotos();
+    render();
+  </script>
+</body>
+</html>
